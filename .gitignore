@@ -1,0 +1,12 @@
+# Arquivos gerados pelo Maven
+target/
+
+# Arquivos compilados e logs
+*.class
+*.log
+
+# Configurações de IDE
+.idea/
+.classpath
+.project
+.settings/
