@@ -11,11 +11,20 @@ public class ClienteDAO {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("clientes-pu");
 		EntityManager entMan = factory.createEntityManager();
 		Cliente entity = toEntity(dto);
-		entMan.getTransaction().begin();
-		entMan.persist(entity);
-		entMan.getTransaction().commit();
-		entMan.close();
-		factory.close();
+		
+		try {
+			entMan.getTransaction().begin();
+			entMan.persist(entity);
+			entMan.getTransaction().commit();			
+		} catch(Exception e) {
+			if (entMan.getTransaction().isActive()) {
+				entMan.getTransaction().rollback();
+            }
+            throw e;
+		} finally {
+			entMan.close();
+			factory.close();			
+		}
 	}
 	
 	private Cliente toEntity(ClienteDTO dto) {
